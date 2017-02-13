@@ -96,7 +96,7 @@ def f(x,y,weights,bias):
               '''
     prob=part2(x,weights,bias)
     return -sum(y * log(prob))
-    
+ '''
 #alternative cost function, but high run-time complexity (more intuitive)
 def f1(x,y,weights,bias):
     sum=0
@@ -105,7 +105,7 @@ def f1(x,y,weights,bias):
         for k in range(200):
             sum += y[j][k] * log(prob[j][k])
     return -sum
-
+'''
     
 def df(x, y, weights, bias):
     prob=part2(x,weights,bias)
