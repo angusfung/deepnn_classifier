@@ -16,6 +16,7 @@ from scipy.io import loadmat
 ## Running The Code.
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
+run_part4 = False
 
 # Load the MNIST digit data
 M = loadmat("mnist_all.mat")
@@ -155,21 +156,21 @@ def grad_descent(f, df, x, y, init_t, alpha, bias):
     EPS = 1e-10  # EPS = 10**(-5)
     prev_t = init_t - 10 * EPS
     t = init_t.copy()
-    max_iter = 60000
+    max_iter = 5000
     iter = 0
     while norm(t - prev_t) > EPS and iter < max_iter:
         prev_t = t.copy()
         t -= alpha * df(x, y, t, bias)
-        if iter % 2000 == 0:
+        if iter % 20 == 0:
             # if iter % 1 == 0:
             print "Iter", iter
-            print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t, bias))
-            print "Gradient: ", df(x, y, t, bias), "\n"
+            # print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t,bias))
+            print f(x, y, t, bias)
+            # print "Gradient: ", df(x, y, t,bias), "\n"
         iter += 1
     return t, f(x, y, t, bias)
 
 
-# optimized_weights = grad_descent(f,df,x,y,weights, 0.0000000001, bias)
 def make_x_y():  # takes the entire training set (randomoness not required)
     '''build the X (NxM matrix) [Training Set]
        build the Y (NXM matrix) [One-Hot-Encoding]
@@ -178,7 +179,7 @@ def make_x_y():  # takes the entire training set (randomoness not required)
     m = sum(len(M["train" + str(i)]) for i in range(10))  # training size.
 
     x = zeros((784, m))
-    y = zeros((784, m))
+    y = zeros((10, m))
     col_num = 0  # keep track of which column we are on in the X, Y matrix
 
     for i in range(10):  # iterate through the 10 numbers
@@ -228,6 +229,22 @@ def make_x_y_subset(size):  # takes a subset of the training set
                 col_num += 1  # append the next column now
             curr_rand += 1  # go to the next random index
     return x, y
+
+
+def part4():
+    '''returns a tuple containing the optimized weights and the function value
+    '''
+    random.seed(2)
+    # weights = reshape(random.rand(784*10), (784,10))
+    weights = zeros((784, 10))
+    random.seed(3)
+    bias = reshape(random.rand(10), (10, 1))
+    xy = make_x_y()
+    x = xy[0]
+    y = xy[1]
+
+    optimized_weights = grad_descent(f, df, x, y, weights, 0.0000001, bias)
+    return optimized_weights
 
 
 def tanh_layer(y, W, b):
@@ -285,3 +302,5 @@ if run_part1:
         plot_figures("train" + str(i))
 if run_part3:
     part3()
+if run_part4:
+    part4()
