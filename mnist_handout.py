@@ -16,7 +16,7 @@ from scipy.io import loadmat
 ## Running The Code.
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
-run_part4 = False
+run_part4 = True
 
 # Load the MNIST digit data
 M = loadmat("mnist_all.mat")
@@ -75,28 +75,26 @@ def softmax(y):
     return exp(y) / tile(sum(exp(y), 0), (len(y), 1))
 
 
-def part2(x, weights, bias):
-    '''returns a matrix of probabiltiies, the output from the cost function'''
-    # y = sum(dot(weights.T, x),1) + bias
-
+def part2(x, weights):
+    '''returns a matrix of probabiltiies, the output from the cost function
+       bias is the first row of the weight matrix (785 x 10)
+    '''
     x = x / 255.0
-
-    x = vstack((ones((1, x.shape[1])), x))  # include the bias terms
-    weights = vstack((ones((1, weights.shape[1])), weights))
-
-    y = dot(weights.T, x) + bias
+    x = vstack((ones((1, x.shape[1])), x))  # include x_0
+    y = dot(weights.T, x)  # + bias
     return softmax(y)
 
 
 ##Part3
-def f(x, y, weights, bias):
+def f(x, y, weights):
     '''@input prob is a NxM matrix of probabilities
        @input y is a NxM matrix where each column is the one-hot-representation
               of an image
               N is the number of outputs for a single case, M is the number of
               cases (e.g images)
+       @input weights is a 785 x 10 matrix
               '''
-    prob = part2(x, weights, bias)
+    prob = part2(x, weights)
     return -sum(y * log(prob))
 
 
@@ -112,9 +110,10 @@ def f1(x,y,weights,bias):
 '''
 
 
-def df(x, y, weights, bias):
-    prob = part2(x, weights, bias)
+def df(x, y, weights):
+    prob = part2(x, weights)
     x = x / 255.0
+    x = vstack((ones((1, x.shape[1])), x))
     return dot(x, (prob - y).T)
 
 
@@ -128,31 +127,40 @@ def part3():
     y = zeros((10, m))  # one-hot encoding matrix
     y[0, :] = 1
     random.seed(2)
-    weights = reshape(random.rand(784 * 10), (784, 10))
-    random.seed(3)
-    bias = reshape(random.rand(10), (10, 1))
+    weights = reshape(random.rand(785 * 10), (785, 10))
 
-    h = 0.000000001
+    h = 0.00000001
 
     random.seed(4)
-    dh = zeros((784, 10))
+    dh = zeros((785, 10))
     dh[0, 0] = h
 
     print("Finite difference approximation at (1,1)")
-    print (f(x, y, weights + dh, bias) - f(x, y, weights - dh, bias)) / (2 * h)
-    print df(x, y, weights, bias)
+    print (f(x, y, weights + dh) - f(x, y, weights - dh)) / (2 * h)
+    print df(x, y, weights)
 
     dh[0, 0] = 0
     dh[0, 1] = h
     print("Finite difference approximation at (1,2)")
-    print (f(x, y, weights + dh, bias) - f(x, y, weights - dh, bias)) / (2 * h)
-    print df(x, y, weights, bias)
+    print (f(x, y, weights + dh) - f(x, y, weights - dh)) / (2 * h)
+    print df(x, y, weights)
 
+    dh[0, 1] = 0
+    dh[1, 1] = h
+    print("Finite difference approximation at (2,2)")
+    print (f(x, y, weights + dh) - f(x, y, weights - dh)) / (2 * h)
+    print df(x, y, weights)
+
+    dh[1, 1] = 0
+    dh[2, 2] = h
+    print("Finite difference approximation at (3,3)")
+    print (f(x, y, weights + dh) - f(x, y, weights - dh)) / (2 * h)
+    print df(x, y, weights)
     return
 
 
 ##Part 4
-def grad_descent(f, df, x, y, init_t, alpha, bias):
+def grad_descent(f, df, x, y, init_t, alpha):
     EPS = 1e-10  # EPS = 10**(-5)
     prev_t = init_t - 10 * EPS
     t = init_t.copy()
@@ -160,15 +168,15 @@ def grad_descent(f, df, x, y, init_t, alpha, bias):
     iter = 0
     while norm(t - prev_t) > EPS and iter < max_iter:
         prev_t = t.copy()
-        t -= alpha * df(x, y, t, bias)
+        t -= alpha * df(x, y, t)
         if iter % 20 == 0:
             # if iter % 1 == 0:
             print "Iter", iter
             # print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t,bias))
-            print f(x, y, t, bias)
+            print f(x, y, t)
             # print "Gradient: ", df(x, y, t,bias), "\n"
         iter += 1
-    return t, f(x, y, t, bias)
+    return t, f(x, y, t)
 
 
 def make_x_y():  # takes the entire training set (randomoness not required)
@@ -208,7 +216,7 @@ def make_x_y_subset(size):  # takes a subset of the training set
     randomlist = random.random(5000)  # 5000 random numbers
 
     x = zeros((784, m))
-    y = zeros((784, m))
+    y = zeros((10, m))
     col_num = 0  # keep track of which column we are on in the X, Y matrix
 
     for i in range(10):  # iterate through the 10 numbers
@@ -236,15 +244,20 @@ def part4():
     '''
     random.seed(2)
     # weights = reshape(random.rand(784*10), (784,10))
-    weights = zeros((784, 10))
+    weights = zeros((785, 10))
     random.seed(3)
-    bias = reshape(random.rand(10), (10, 1))
     xy = make_x_y()
     x = xy[0]
     y = xy[1]
 
-    optimized_weights = grad_descent(f, df, x, y, weights, 0.0000001, bias)
+    optimized_weights = grad_descent(f, df, x, y, weights, 0.0000001)
     return optimized_weights
+
+
+# #testing performance
+# def part_4_test():
+#     #on the training set
+#     for i in
 
 
 def tanh_layer(y, W, b):
@@ -303,4 +316,4 @@ if run_part1:
 if run_part3:
     part3()
 if run_part4:
-    part4()
+    optimized_weights = part4()
