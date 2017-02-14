@@ -254,10 +254,33 @@ def part4():
     return optimized_weights
 
 
-# #testing performance
-# def part_4_test():
-#     #on the training set
-#     for i in
+# testing performance
+def part_4_test():
+    # on the training set
+    performance_train = 0
+    performance_test = 0
+
+    m = sum(len(M["train" + str(i)]) for i in range(10))  # training size.
+    for i in range(10):
+        results = part2(M["train" + str(i)].T, optimized_weights[0])
+        for j in range(len(results.T)):  # tranpose the matrix so that it's 10xm
+            # now we can loop through the rows
+            y = argmax(results.T[j])
+            if y == i:
+                performance_train += 1
+
+    n = sum(len(M["test" + str(i)]) for i in range(10))  # test size.
+    for i in range(10):
+        results = part2(M["test" + str(i)].T, optimized_weights[0])
+        for j in range(len(results.T)):  # tranpose the matrix so that it's 10xm
+            # now we can loop through the rows
+            y = argmax(results.T[j])
+            if y == i:
+                performance_test += 1
+
+    print("Performance on the training set: " + str(performance_train / float(m)))
+    print("Performance on the test set: " + str(performance_test / float(n)))
+    return
 
 
 def tanh_layer(y, W, b):
@@ -317,3 +340,4 @@ if run_part3:
     part3()
 if run_part4:
     optimized_weights = part4()
+    part_4_test()
