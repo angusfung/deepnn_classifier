@@ -18,6 +18,9 @@ run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
 run_part4 = True  # generate the performance vs iteration graph
 run_part4b = False  # print out the final performance results
+# plot the weights
+
+
 
 # Load the MNIST digit data
 M = loadmat("mnist_all.mat")
@@ -288,6 +291,46 @@ def part_4_test(optimized_weights):
     return performance_train / float(m), performance_test / float(n)
 
 
+def plot_weights(learning_weights):
+    '''input contains all the weights at incremental iterations'''
+    # take the last weights, which corresponds to the final performance
+    final_index = len(learning_weights) - 1
+    final_weights = learning_weights[final_index][1:, :]  # 784 by 10
+    # there are 10 weights, each of size 784, going to each of the outputs
+    # we want to visualize all of them
+
+    # unflatten the images, transpose them so we can index the row
+    w1 = final_weights.T[0].reshape((28, 28))  # first row of 10x784
+    w2 = final_weights.T[1].reshape((28, 28))
+    w3 = final_weights.T[2].reshape((28, 28))
+    w4 = final_weights.T[3].reshape((28, 28))
+    w5 = final_weights.T[4].reshape((28, 28))
+    w6 = final_weights.T[5].reshape((28, 28))
+    w7 = final_weights.T[6].reshape((28, 28))
+    w8 = final_weights.T[7].reshape((28, 28))
+    w9 = final_weights.T[8].reshape((28, 28))
+    w10 = final_weights.T[9].reshape((28, 28))
+
+    # Four axes, returned as a 2-d array
+    f, axarr = plt.subplots(2, 5)
+    axarr[0, 0].imshow(w1, cmap=cm.gray)
+    axarr[0, 1].imshow(w2, cmap=cm.gray)
+    axarr[0, 2].imshow(w3, cmap=cm.gray)
+    axarr[0, 3].imshow(w4, cmap=cm.gray)
+    axarr[0, 4].imshow(w5, cmap=cm.gray)
+    axarr[1, 0].imshow(w6, cmap=cm.gray)
+    axarr[1, 1].imshow(w7, cmap=cm.gray)
+    axarr[1, 2].imshow(w8, cmap=cm.gray)
+    axarr[1, 3].imshow(w9, cmap=cm.gray)
+    axarr[1, 4].imshow(w10, cmap=cm.gray)
+
+    # Fine-tune figure; hide x ticks for top plots and y ticks for right plots
+    plt.setp([a.get_xticklabels() for a in axarr[0, :]], visible=False)
+    plt.setp([a.get_yticklabels() for a in axarr[:, 1]], visible=False)
+
+    plt.show()
+
+
 def tanh_layer(y, W, b):
     '''Return the output of a tanh layer for the input matrix y. y
     is an NxM matrix where N is the number of inputs for a single case, and M
@@ -376,3 +419,9 @@ if run_part4b:
     final_result = part_4_test(learning_weights[final_index])
     print("Performance on the training set: " + str(final_result[0]))
     print("Performance on the test set: " + str(final_result[1]))
+
+    plot_weights(learning_weights)
+
+
+
+
