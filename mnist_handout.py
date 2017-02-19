@@ -16,7 +16,8 @@ from scipy.io import loadmat
 ## Running The Code.
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
-run_part4 = True
+run_part4 = True  # generate the performance vs iteration graph
+run_part4b = False  # print out the final performance results
 
 # Load the MNIST digit data
 M = loadmat("mnist_all.mat")
@@ -161,15 +162,19 @@ def part3():
 
 ##Part 4
 def grad_descent(f, df, x, y, init_t, alpha):
+    global learning_weights
+    learning_weights = []
     EPS = 1e-10  # EPS = 10**(-5)
     prev_t = init_t - 10 * EPS
     t = init_t.copy()
-    max_iter = 5000
+    max_iter = 3000
     iter = 0
     while norm(t - prev_t) > EPS and iter < max_iter:
         prev_t = t.copy()
         t -= alpha * df(x, y, t)
-        if iter % 20 == 0:
+        if iter % 10 == 0:
+            curr_t = t.copy()  # the t.copy is apparently giving me a hard time.
+            learning_weights.append(curr_t)
             # if iter % 1 == 0:
             print "Iter", iter
             # print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t,bias))
@@ -239,7 +244,7 @@ def make_x_y_subset(size):  # takes a subset of the training set
     return x, y
 
 
-def part4():
+def part4(alpha):
     '''returns a tuple containing the optimized weights and the function value
     '''
     random.seed(2)
@@ -250,19 +255,19 @@ def part4():
     x = xy[0]
     y = xy[1]
 
-    optimized_weights = grad_descent(f, df, x, y, weights, 0.0000001)
+    optimized_weights = grad_descent(f, df, x, y, weights, alpha)
     return optimized_weights
 
 
 # testing performance
-def part_4_test():
+def part_4_test(optimized_weights):
     # on the training set
     performance_train = 0
     performance_test = 0
 
     m = sum(len(M["train" + str(i)]) for i in range(10))  # training size.
     for i in range(10):
-        results = part2(M["train" + str(i)].T, optimized_weights[0])
+        results = part2(M["train" + str(i)].T, optimized_weights)
         for j in range(len(results.T)):  # tranpose the matrix so that it's 10xm
             # now we can loop through the rows
             y = argmax(results.T[j])
@@ -271,16 +276,16 @@ def part_4_test():
 
     n = sum(len(M["test" + str(i)]) for i in range(10))  # test size.
     for i in range(10):
-        results = part2(M["test" + str(i)].T, optimized_weights[0])
+        results = part2(M["test" + str(i)].T, optimized_weights)
         for j in range(len(results.T)):  # tranpose the matrix so that it's 10xm
             # now we can loop through the rows
             y = argmax(results.T[j])
             if y == i:
                 performance_test += 1
 
-    print("Performance on the training set: " + str(performance_train / float(m)))
-    print("Performance on the test set: " + str(performance_test / float(n)))
-    return
+    # print("Performance on the training set: " + str(performance_train / float(m)))
+    # print("Performance on the test set: " + str(performance_test / float(n)))
+    return performance_train / float(m), performance_test / float(n)
 
 
 def tanh_layer(y, W, b):
@@ -339,5 +344,35 @@ if run_part1:
 if run_part3:
     part3()
 if run_part4:
-    optimized_weights = part4()
-    part_4_test()
+    # alpha = 0.000001
+    # optimized_weights = part4(alpha)
+    # optimized_weights = optimized_weights[0]
+    # part_4_test(optimized_weights)
+    '''uncomment above if we just want to see the accuracy on the entire training set and test set, but for alpha = 0.000001
+Performance on the training set: 0.917016666667
+Performance on the test set: 0.9194'''
+    alpha = 0.0000001
+    part4(alpha)
+
+    print("Please wait while the graph is being generated for every 10 iterations...")
+    print("May take a couple of minutes...")
+
+    '''can speed up "results" computation by incrementing the for-loop more per iteration or save less points in gradient descent'''
+
+    results = [(part_4_test(learning_weights[i])[0], part_4_test(learning_weights[i])[1]) for i in
+               range(len(learning_weights))]
+    x_axis = linspace(0, 3000, len(results))
+    training_results = [results[i][0] for i in range(len(results))]
+    test_results = [results[i][1] for i in range(len(results))]
+    plot(x_axis, training_results, x_axis, test_results)
+    title('Performance vs. Iteration')
+    xlabel('# of Iterations')
+    ylabel('Performance')
+    legend()
+    legend(('Training Set', 'Test Set'))
+    show()
+if run_part4b:
+    final_index = len(learning_weights) - 1
+    final_result = part_4_test(learning_weights[final_index])
+    print("Performance on the training set: " + str(final_result[0]))
+    print("Performance on the test set: " + str(final_result[1]))
