@@ -12,28 +12,27 @@ from numpy import random
 import cPickle
 import os
 from scipy.io import loadmat
+import pickle
 
-## Running The Code.
+#---------------------------------- Running The Code ----------------------------------#
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
-run_part4 = True  # generate the performance vs iteration graph
-run_part4b = False  # print out the final performance results
-# plot the weights
-
-
+run_part4 = True  # plot the learning curve, print out the final performance results
+run_part5 = True # multinomial example
+#--------------------------------------------------------------------------------------#
 
 # Load the MNIST digit data
 M = loadmat("mnist_all.mat")
 
 
-# #Display the 150-th "5" digit from the training set
-# imshow(M["train1"][120].reshape((28,28)), cmap=cm.gray)
-# show()
-
-##Part 1
+#--------------------------------------- Part 1 -----------------------------------------#
 def plot_figures(filename):
-    '''@param filename e.g "train1", "train2"
     '''
+    Plots 10 samples for each digits from a set
+    :param filename: filename e.g "train1", "train2"
+    :return: None
+    '''
+
     # generates 10 rand numbers
     random.seed(1)
     rand = random.random(10) * len(M[filename])
@@ -70,9 +69,9 @@ def plot_figures(filename):
     plt.show()
 
 
-##Part2
+#--------------------------------------- Part 2 -----------------------------------------#
 def softmax(y):
-    '''Return the output of the softmax function for the matrix of output y. y
+    '''Returns the output of the softmax function for the matrix of output y. y
     is an NxM matrix where N is the number of outputs for a single case, and M
     is the number of cases'''
 
@@ -80,16 +79,16 @@ def softmax(y):
 
 
 def part2(x, weights):
-    '''returns a matrix of probabiltiies, the output from the cost function
+    '''Returns a matrix of probabiltiies, the output from the cost function
        bias is the first row of the weight matrix (785 x 10)
     '''
     x = x / 255.0
     x = vstack((ones((1, x.shape[1])), x))  # include x_0
-    y = dot(weights.T, x)  # + bias
+    y = dot(weights.T, x)
     return softmax(y)
 
 
-##Part3
+#--------------------------------------- Part 3 -----------------------------------------#
 def f(x, y, weights):
     '''@input prob is a NxM matrix of probabilities
        @input y is a NxM matrix where each column is the one-hot-representation
@@ -101,27 +100,30 @@ def f(x, y, weights):
     prob = part2(x, weights)
     return -sum(y * log(prob))
 
-
-'''
-#alternative cost function, but high run-time complexity (more intuitive)
-def f1(x,y,weights,bias):
-    sum=0
-    prob=part2(x,weights,bias)
-    for j in range(10):
-        for k in range(200):
-            sum += y[j][k] * log(prob[j][k])
-    return -sum
-'''
-
-
 def df(x, y, weights):
+    # Gradient function based on logistic regression
     prob = part2(x, weights)
     x = x / 255.0
     x = vstack((ones((1, x.shape[1])), x))
     return dot(x, (prob - y).T)
 
+def f_original(x, y, theta):
+    # Cost function
+    # Provided on the csc411 website for Project 1
+    x = vstack( (ones((1, x.shape[1])), x))
+    return sum( (y - dot(theta.T,x)) ** 2)
+
+def df_original(x, y, theta):
+    # The gradient of the cost function
+    # Provided on the csc411 website for Project 1
+    x = vstack( (ones((1, x.shape[1])), x))
+    return -2*sum((y-dot(theta.T, x))*x, 1)
 
 def part3():
+    '''
+    Compares finite difference approximation and vectorized gradient algorithm
+    :return: None
+    '''
     # initializing random variables to test
     m = 200
 
@@ -162,9 +164,41 @@ def part3():
     print df(x, y, weights)
     return
 
+#--------------------------------------- Part 4 -----------------------------------------#
+def save_weights(learning_weights, alpha):
+    '''
+    Saves the weights in a separate file for later use
+    :param learning_weights: training weigts that will be saved
+    :param learning_weights: alpha used in the training
+    '''
+    with open('learning_weights' + str(alpha) +'.pkl', 'wb') as output:
+        pickle.dump(learning_weights, output, pickle.HIGHEST_PROTOCOL)
 
-##Part 4
+    return True
+
+def reload_weights(alpha):
+    '''
+    Reloads the weights from a separate file
+    :param learning_weights: training weigts that will be saved
+    :param learning_weights: alpha used in the training
+    :return: learning_weights (array of numpy arrays) loaded from the pkl file
+    '''
+    with open('learning_weights' + str(alpha) +'.pkl', 'rb') as input:
+        learning_weights = pickle.load(input)
+    return learning_weights
+
 def grad_descent(f, df, x, y, init_t, alpha):
+    '''
+    Gradient descent optimizing algorithm
+    :param f: cost function
+    :param df: gradient
+    :param x: x input matrix
+    :param y: y input matrix
+    :param init_t: initial vector theta
+    :param alpha: step size
+    :return: minimizing theta, value of the cost function
+    Also modifies the learning weights global variable
+    '''
     global learning_weights
     learning_weights = []
     EPS = 1e-10  # EPS = 10**(-5)
@@ -175,11 +209,11 @@ def grad_descent(f, df, x, y, init_t, alpha):
     while norm(t - prev_t) > EPS and iter < max_iter:
         prev_t = t.copy()
         t -= alpha * df(x, y, t)
-        if iter % 10 == 0:
+        if iter % 100 == 0:
             curr_t = t.copy()  # the t.copy is apparently giving me a hard time.
             learning_weights.append(curr_t)
             # if iter % 1 == 0:
-            print "Iter", iter
+            print "Iter ", iter
             # print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t,bias))
             print f(x, y, t)
             # print "Gradient: ", df(x, y, t,bias), "\n"
@@ -187,10 +221,11 @@ def grad_descent(f, df, x, y, init_t, alpha):
     return t, f(x, y, t)
 
 
-def make_x_y():  # takes the entire training set (randomoness not required)
-    '''build the X (NxM matrix) [Training Set]
-       build the Y (NXM matrix) [One-Hot-Encoding]
-       @input size is the entire training set (60000 images)
+def make_x_y():
+    '''
+    Returns the entire training set
+    build the X (NxM matrix) [Training Set]
+    build the Y (NXM matrix) [One-Hot-Encoding]
     '''
     m = sum(len(M["train" + str(i)]) for i in range(10))  # training size.
 
@@ -211,13 +246,13 @@ def make_x_y():  # takes the entire training set (randomoness not required)
     return x, y
 
 
-# ignore make_x_y_subset
-def make_x_y_subset(size):  # takes a subset of the training set
-    # probably don't need this code, because guerzhoy
-    # made a clarification.
-    '''build the X (NxM matrix) [Training Set]
-       build the Y (NXM matrix) [One-Hot-Encoding]
-       @input size is the number of images of each digit in the trainingset.
+def make_x_y_subset(size):
+
+    '''
+    Returns a subset of the training set
+    build the X (NxM matrix) [Training Set]
+    build the Y (NXM matrix) [One-Hot-Encoding]
+    @input size - size of a subset
     '''
     m = 10 * size  # training size. 10 images per number
     random.seed(0)
@@ -248,10 +283,12 @@ def make_x_y_subset(size):  # takes a subset of the training set
 
 
 def part4(alpha):
-    '''returns a tuple containing the optimized weights and the function value
     '''
-    random.seed(2)
-    # weights = reshape(random.rand(784*10), (784,10))
+    Initialization of the gradient descent algorithm as specified
+    :param alpha: step size
+    :return: a tuple containing the optimized weights and the function value
+    '''
+
     weights = zeros((785, 10))
     random.seed(3)
     xy = make_x_y()
@@ -262,9 +299,12 @@ def part4(alpha):
     return optimized_weights
 
 
-# testing performance
 def part_4_test(optimized_weights):
-    # on the training set
+    '''
+    Tests performance on the training and test sets
+    :param optimized_weights: thetas that will be tested
+    :return: performance values in a tuple
+    '''
     performance_train = 0
     performance_test = 0
 
@@ -286,8 +326,6 @@ def part_4_test(optimized_weights):
             if y == i:
                 performance_test += 1
 
-    # print("Performance on the training set: " + str(performance_train / float(m)))
-    # print("Performance on the test set: " + str(performance_test / float(n)))
     return performance_train / float(m), performance_test / float(n)
 
 
@@ -329,7 +367,34 @@ def plot_weights(learning_weights):
     plt.setp([a.get_yticklabels() for a in axarr[:, 1]], visible=False)
 
     plt.show()
+#--------------------------------------- Part 5 -----------------------------------------#
+def gen_lin_data_1d(theta, N, sigma):
+    #####################################################
+    # Actual data
+    x_raw = 100 * (random.random((N)) - .5)
 
+    x = vstack((ones_like(x_raw), x_raw,))
+
+    y = dot(theta, x) + scipy.stats.norm.rvs(scale=sigma, size=N)
+
+    plot(x[1, :], y, "ro", label="Training set")
+    #####################################################
+    # Actual generating process
+    #
+    plot_line(theta, -70, 70, "b", "Actual generating process")
+
+    #######################################################
+    # Least squares solution
+    #
+
+    theta_hat = dot(linalg.inv(dot(x, x.T)), dot(x, y.T))
+    plot_line(theta_hat, -70, 70, "g", "Maximum Likelihood Solution")
+
+    legend(loc=1)
+    xlim([-70, 70])
+    ylim([-100, 100])
+
+#---------------------------------- Helper functions given on the 411 website ------------------------------------#
 
 def tanh_layer(y, W, b):
     '''Return the output of a tanh layer for the input matrix y. y
@@ -384,44 +449,59 @@ y = argmax(output)
 if run_part1:
     for i in range(10):
         plot_figures("train" + str(i))
+
 if run_part3:
     part3()
+
 if run_part4:
-    # alpha = 0.000001
+    #alpha = 0.000001
     # optimized_weights = part4(alpha)
     # optimized_weights = optimized_weights[0]
     # part_4_test(optimized_weights)
-    '''uncomment above if we just want to see the accuracy on the entire training set and test set, but for alpha = 0.000001
-Performance on the training set: 0.917016666667
-Performance on the test set: 0.9194'''
+    '''
+    Uncomment above if we just want to see the accuracy on the entire training set and test set, for larger alpha = 0.000001
+    With this alpha:
+
+    Performance on the training set: 0.917016666667
+    Performance on the test set: 0.9194
+    '''
     alpha = 0.0000001
-    part4(alpha)
+    # A .pkl file with learning_weights is submitted
+    if os.path.isfile('learning_weights' + str(alpha) +'.pkl'):
+        print("Loading from the .pkl file...")
+        learning_weights = reload_weights(alpha)
+    else:
+        part4(alpha)
+        save_weights(learning_weights, alpha)
 
     print("Please wait while the graph is being generated for every 10 iterations...")
     print("May take a couple of minutes...")
 
-    '''can speed up "results" computation by incrementing the for-loop more per iteration or save less points in gradient descent'''
-
+    # Plot the learning curve obtained through training:
     results = [(part_4_test(learning_weights[i])[0], part_4_test(learning_weights[i])[1]) for i in
                range(len(learning_weights))]
     x_axis = linspace(0, 3000, len(results))
     training_results = [results[i][0] for i in range(len(results))]
     test_results = [results[i][1] for i in range(len(results))]
-    plot(x_axis, training_results, x_axis, test_results)
-    title('Performance vs. Iteration')
-    xlabel('# of Iterations')
-    ylabel('Performance')
-    legend()
-    legend(('Training Set', 'Test Set'))
-    show()
-if run_part4b:
+
+    plt_training = plt.plot(x_axis, training_results, label='Training')
+    plt_test = plt.plot(x_axis, test_results, label='Test')
+    plt.ylim([0.6, 0.9])
+    plt.xlabel('# of Iterations')
+    plt.ylabel('Performance')
+    plt.title('Performance vs. # of iterations')
+    plt.legend(["Training Set", "Test Set"], loc=7)
+    plt.savefig("learning_curve.png")
+
+    # Report on the final performance:
     final_index = len(learning_weights) - 1
     final_result = part_4_test(learning_weights[final_index])
     print("Performance on the training set: " + str(final_result[0]))
     print("Performance on the test set: " + str(final_result[1]))
-
     plot_weights(learning_weights)
 
+if run_part5:
 
+    print("--in progress--")
 
 
