@@ -7,6 +7,7 @@ from scipy.misc import imread
 from scipy.misc import imresize
 import matplotlib.image as mpimg
 from scipy.ndimage import filters
+from scipy.stats import norm
 import urllib
 from numpy import random
 import cPickle
@@ -17,8 +18,8 @@ import pickle
 #---------------------------------- Running The Code ----------------------------------#
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
-run_part4 = True  # plot the learning curve, print out the final performance results
-run_part5 = True # multinomial example
+run_part4 = False  # plot the learning curve, print out the final performance results
+run_part5 = True  # multinomial example
 #--------------------------------------------------------------------------------------#
 
 # Load the MNIST digit data
@@ -210,9 +211,8 @@ def grad_descent(f, df, x, y, init_t, alpha):
         prev_t = t.copy()
         t -= alpha * df(x, y, t)
         if iter % 100 == 0:
-            curr_t = t.copy()  # the t.copy is apparently giving me a hard time.
+            curr_t = t.copy()
             learning_weights.append(curr_t)
-            # if iter % 1 == 0:
             print "Iter ", iter
             # print "x = (%.2f, %.2f, %.2f), f(x) = %.2f" % (t[0], t[1], t[2], f(x, y, t,bias))
             print f(x, y, t)
@@ -330,7 +330,11 @@ def part_4_test(optimized_weights):
 
 
 def plot_weights(learning_weights):
-    '''input contains all the weights at incremental iterations'''
+    '''
+    Shows the learning curve and visualizes weights provided
+    :param learning_weights: optimal weights found (array where the last entry contains the final iteration)
+    :return: None
+    '''
     # take the last weights, which corresponds to the final performance
     final_index = len(learning_weights) - 1
     final_weights = learning_weights[final_index][1:, :]  # 784 by 10
@@ -368,31 +372,76 @@ def plot_weights(learning_weights):
 
     plt.show()
 #--------------------------------------- Part 5 -----------------------------------------#
+def part5():
+    '''
+    Demonstration of how logistic regression handles cases with more scattered data
+    (i.e. the cost function won't be large when the outputs are off from the actual target ouputs...
+    ... thus, the weights aren't adjusted too much)
+    The function plots the actual data, least squares solution and the logistic regression (2D)
+    :return: None
+    '''
+
+    N = 100
+    sigma = 80 # Large sigma to generate datapoints far away from the target
+    theta = array([0.3, 1])
+    gen_lin_data_1d(theta, N, sigma)
+    show()
+    return
+
 def gen_lin_data_1d(theta, N, sigma):
+    '''
+    Generates data according to the Gaussian distribution
+    Plots the actual data, least squares solution and the logistic regression (2D)
+    :param theta: actual line weights
+    :param N: number of samples
+    :param sigma: standard deviation
+    :return: None
+    '''
     #####################################################
-    # Actual data
-    x_raw = 100 * (random.random((N)) - .5)
+    # Data limits
+    x_limit = 150
+    y_limit = 150
 
+    # Actual data generation
+    random.seed(N)
+    x_raw = rint(x_limit * (random.random((N)) - .5)).astype(int64)
     x = vstack((ones_like(x_raw), x_raw,))
-
-    y = dot(theta, x) + scipy.stats.norm.rvs(scale=sigma, size=N)
+    y = dot(theta, x) + norm.rvs(scale=sigma, size=N)
 
     plot(x[1, :], y, "ro", label="Training set")
-    #####################################################
+
     # Actual generating process
-    #
-    plot_line(theta, -70, 70, "b", "Actual generating process")
+    plot_line(theta, -x_limit, x_limit, "b", "Actual generating process")
 
-    #######################################################
     # Least squares solution
-    #
-
     theta_hat = dot(linalg.inv(dot(x, x.T)), dot(x, y.T))
-    plot_line(theta_hat, -70, 70, "g", "Maximum Likelihood Solution")
+    plot_line(theta_hat, -x_limit, x_limit, "g", "Maximum Likelihood Solution")
 
-    legend(loc=1)
-    xlim([-70, 70])
-    ylim([-100, 100])
+    # Logistic regression solution
+    theta_log = grad_descent(f, df, np.reshape(x_raw, (1,N)), np.reshape(y, (1,N)), ones((2, 1)), 0.00000001)[0].T
+    theta_log = np.reshape(theta_log, (2,))
+
+    plot_line(theta_log, -x_limit, y_limit, "r", "Logistic Regression Solution")
+
+    legend(loc=4)
+    xlim([-x_limit, x_limit])
+    ylim([-y_limit, y_limit])
+    plt.savefig("logistic_vs_least_squares.png")
+
+def plot_line(theta, x_min, x_max, color, label):
+    '''
+    The function plots the line
+    :param theta: line coefficients
+    :param x_min: minimum x
+    :param x_max: maximum x
+    :param color: color of the line
+    :param label: label of the line
+    :return: None
+    '''
+    x_grid_raw = arange(x_min, x_max, 0.01)
+    x_grid = vstack((ones_like(x_grid_raw), x_grid_raw,))
+    y_grid = dot(theta, x_grid)
+    plot(x_grid[1,:], y_grid, color, label=label)
 
 #---------------------------------- Helper functions given on the 411 website ------------------------------------#
 
@@ -474,9 +523,6 @@ if run_part4:
         part4(alpha)
         save_weights(learning_weights, alpha)
 
-    print("Please wait while the graph is being generated for every 10 iterations...")
-    print("May take a couple of minutes...")
-
     # Plot the learning curve obtained through training:
     results = [(part_4_test(learning_weights[i])[0], part_4_test(learning_weights[i])[1]) for i in
                range(len(learning_weights))]
@@ -501,7 +547,7 @@ if run_part4:
     plot_weights(learning_weights)
 
 if run_part5:
-
+    part5()
     print("--in progress--")
 
 
