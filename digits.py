@@ -108,18 +108,6 @@ def df(x, y, weights):
     x = vstack((ones((1, x.shape[1])), x))
     return dot(x, (prob - y).T)
 
-def f_original(x, y, theta):
-    # Cost function
-    # Provided on the csc411 website for Project 1
-    x = vstack( (ones((1, x.shape[1])), x))
-    return sum( (y - dot(theta.T,x)) ** 2)
-
-def df_original(x, y, theta):
-    # The gradient of the cost function
-    # Provided on the csc411 website for Project 1
-    x = vstack( (ones((1, x.shape[1])), x))
-    return -2*sum((y-dot(theta.T, x))*x, 1)
-
 def part3():
     '''
     Compares finite difference approximation and vectorized gradient algorithm
@@ -244,7 +232,6 @@ def make_x_y():
             col_num += 1  # append the next column now
 
     return x, y
-
 
 def make_x_y_subset(size):
 
@@ -380,7 +367,7 @@ def part5():
     The function plots the actual data, least squares solution and the logistic regression (2D)
     :return: None
     '''
-
+    # According to Piazza posts/answers, using the least square method and 2 labels is suitable for the demonstration
     N = 100
     sigma = 80 # Large sigma to generate datapoints far away from the target
     theta = array([0.3, 1])
