@@ -1,0 +1,35 @@
+=======
+Using 1000 hidden units
+240 batch size
+0.0 lambda
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 1000 hidden units
+240 batch size
+0.01 lambda
+Final test accuracy: 0.894444
+Final train accuracy: 1.0
+Final validation accuracy: 0.833333
+=======
+Using 1000 hidden units
+240 batch size
+0.1 lambda
+Final test accuracy: 0.883333
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 200 hidden units
+240 batch size
+0.01 lambda
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 200 hidden units
+240 batch size
+0.001 lambda
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.9

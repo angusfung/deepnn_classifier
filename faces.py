@@ -9,97 +9,158 @@ import matplotlib.image as mpimg
 from scipy.ndimage import filters
 import urllib
 from numpy import random
-
 import cPickle
-
 import os
 from scipy.io import loadmat
-
-
-t = int(time.time())
-#t = 1454219613
-print "t=", t
-random.seed(t)
-
-
-M = loadmat("mnist_all.mat")
-
 import tensorflow as tf
 
-def get_train_batch(M, N):
-    n = N/10
-    batch_xs = zeros((0, 28*28))
-    batch_y_s = zeros( (0, 10))
-    
-    train_k =  ["train"+str(i) for i in range(10)]
+def load_data():
+    '''
+    Loads data from /data directory and creates a dictionary M with keys [train0, test0, validation0, train1 ...]
+    Such that each index represents data for a separate class (total 6 classes)
+    :return: a dictionary specified above
+    '''
+    M = {}
+    actors = ['carell','hader','baldwin', 'drescher', 'ferrera', 'chenoweth']
+    for i in range(6):
+        x_train = np.zeros((90, 1024))
+        x_test = np.zeros((30, 1024))
+        x_validation = np.zeros((15, 1024))
+        j = 0
+        for filename in os.listdir("data/"+actors[i]+"/training/"):
+            if j >= 90: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data/" + actors[i] + "/training/" + filename)
+                im = (im - 127.) / 255
+                x_train[j, :] = im.flatten().T
+                j += 1
+        j = 0
+        for filename in os.listdir("data/" + actors[i] + "/test/"):
+            if j >= 30: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data/" + actors[i] + "/test/" + filename)
+                im = (im - 127.) / 255
+                x_test[j, :] = im.flatten().T
+                j += 1
+        j = 0
+        for filename in os.listdir("data/" + actors[i] + "/validation/"):
+            if j >= 15: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data/" + actors[i] + "/validation/" + filename)
+                im = (im - 127.) / 255
+                x_validation[j, :] = im.flatten().T
+                j += 1
 
-    train_size = len(M[train_k[0]])
-    #train_size = 5000
+        M['train' + str(i)] = x_train
+        M['test' + str(i)] = x_test
+        M['validation' + str(i)] = x_validation
+
+    return M
+
+def get_train_batch(M, N):
+    '''
+    Parses the data dictionary and returns a subset of training set specified by the batch size N
+    :param M: dictionary with all the data
+    :param N: size of a batch
+    :return: x and y matrices containing the training data and the labels in the correct format
+    '''
+    n = N/6
+    batch_xs = zeros((0, 1024))
+    batch_y_s = zeros( (0, 6))
     
-    for k in range(10):
+    train_k =  ["train"+str(i) for i in range(6)]
+    train_size = len(M[train_k[0]])
+    
+    for k in range(6):
         train_size = len(M[train_k[k]])
         idx = array(random.permutation(train_size)[:n])
-        batch_xs = vstack((batch_xs, ((array(M[train_k[k]])[idx])/255.)  ))
-        one_hot = zeros(10)
+        batch_xs = vstack((batch_xs, ((array(M[train_k[k]])[idx]))  ))
+        one_hot = zeros(6)
         one_hot[k] = 1
         batch_y_s = vstack((batch_y_s,   tile(one_hot, (n, 1))   ))
     return batch_xs, batch_y_s
-    
+
+def get_validation(M):
+    '''
+    Parses the data dictionary and returns the entire validation set
+    :param M: dictionary with all the data
+    :return: x and y matrices containing the validation data and the labels in the correct format
+    '''
+    batch_xs = zeros((0, 1024))
+    batch_y_s = zeros((0, 6))
+
+    validation_k = ["validation" + str(i) for i in range(6)]
+    for k in range(6):
+        batch_xs = vstack((batch_xs, ((array(M[validation_k[k]])[:]))))
+        one_hot = zeros(6)
+        one_hot[k] = 1
+        batch_y_s = vstack((batch_y_s, tile(one_hot, (len(M[validation_k[k]]), 1))))
+    return batch_xs, batch_y_s
 
 def get_test(M):
-    batch_xs = zeros((0, 28*28))
-    batch_y_s = zeros( (0, 10))
+    '''
+    Parses the data dictionary and returns the entire test set
+    :param M: dictionary with all the data
+    :return: x and y matrices containing the test data and the labels in the correct format
+    '''
+    batch_xs = zeros((0, 1024))
+    batch_y_s = zeros( (0, 6))
     
-    test_k =  ["test"+str(i) for i in range(10)]
-    for k in range(10):
-        batch_xs = vstack((batch_xs, ((array(M[test_k[k]])[:])/255.)  ))
-        one_hot = zeros(10)
+    test_k =  ["test"+str(i) for i in range(6)]
+    for k in range(6):
+        batch_xs = vstack((batch_xs, ((array(M[test_k[k]])[:]))  ))
+
+        one_hot = zeros(6)
         one_hot[k] = 1
         batch_y_s = vstack((batch_y_s,   tile(one_hot, (len(M[test_k[k]]), 1))   ))
     return batch_xs, batch_y_s
 
 
 def get_train(M):
-    batch_xs = zeros((0, 28*28))
-    batch_y_s = zeros( (0, 10))
+    '''
+    Parses the data dictionary and returns the entire training set
+    :param M: dictionary with all the data
+    :return: x and y matrices containing the training data and the labels in the correct format
+    '''
+    batch_xs = zeros((0, 1024))
+    batch_y_s = zeros( (0, 6))
     
-    train_k =  ["train"+str(i) for i in range(10)]
-    for k in range(10):
-        batch_xs = vstack((batch_xs, ((array(M[train_k[k]])[:])/255.)  ))
-        one_hot = zeros(10)
+    train_k =  ["train"+str(i) for i in range(6)]
+    for k in range(6):
+        batch_xs = vstack((batch_xs, ((array(M[train_k[k]])[:]))  ))
+        one_hot = zeros(6)
         one_hot[k] = 1
         batch_y_s = vstack((batch_y_s,   tile(one_hot, (len(M[train_k[k]]), 1))   ))
     return batch_xs, batch_y_s
-        
 
 
+# ---------------------------------------------Definitions end------------------------------------------------------
+# Initialize network paramters
+batch_size = 240
+nhid = 200
+lam = 0.001
+total_iterations = 3000
+random.seed(15)
 
-x = tf.placeholder(tf.float32, [None, 784])
+# Initialize Tensor Flow variables
+M = load_data()
+x = tf.placeholder(tf.float32, [None, 1024])
 
-nhid = 300
-W0 = tf.Variable(tf.random_normal([784, nhid], stddev=0.01))
+W0 = tf.Variable(tf.random_normal([1024, nhid], stddev=0.01))
 b0 = tf.Variable(tf.random_normal([nhid], stddev=0.01))
 
-W1 = tf.Variable(tf.random_normal([nhid, 10], stddev=0.01))
-b1 = tf.Variable(tf.random_normal([10], stddev=0.01))
-
-snapshot = cPickle.load(open("snapshot50.pkl"))
-W0 = tf.Variable(snapshot["W0"])
-b0 = tf.Variable(snapshot["b0"])
-W1 = tf.Variable(snapshot["W1"])
-b1 = tf.Variable(snapshot["b1"])
-
+W1 = tf.Variable(tf.random_normal([nhid, 6], stddev=0.01))
+b1 = tf.Variable(tf.random_normal([6], stddev=0.01))
 
 layer1 = tf.nn.tanh(tf.matmul(x, W0)+b0)
 layer2 = tf.matmul(layer1, W1)+b1
 
-
 y = tf.nn.softmax(layer2)
-y_ = tf.placeholder(tf.float32, [None, 10])
+y_ = tf.placeholder(tf.float32, [None, 6])
 
-
-
-lam = 0.00000
 decay_penalty =lam*tf.reduce_sum(tf.square(W0))+lam*tf.reduce_sum(tf.square(W1))
 reg_NLL = -tf.reduce_sum(y_*tf.log(y))+decay_penalty
 
@@ -112,26 +173,58 @@ sess.run(init)
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 test_x, test_y = get_test(M)
+val_x, val_y = get_validation(M)
 
-
-for i in range(5000):
-  #print i  
-  batch_xs, batch_ys = get_train_batch(M, 500)
+# Run the TF, collect accuracies in a separate array
+results = []
+for i in range(total_iterations):
+  batch_xs, batch_ys = get_train_batch(M, batch_size)
   sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
-  
-  
-  if i % 1 == 0:
-    print "i=",i
-    print "Test:", sess.run(accuracy, feed_dict={x: test_x, y_: test_y})
+
+
+  if i % 10 == 0:
+    print "i = ",i
+    test_accuracy = sess.run(accuracy, feed_dict={x: test_x, y_: test_y})
+    validation_accuracy = sess.run(accuracy, feed_dict={x: val_x, y_: val_y})
+
+    print "Test:", test_accuracy
+    print "Validation:", validation_accuracy
     batch_xs, batch_ys = get_train(M)
 
-    print "Train:", sess.run(accuracy, feed_dict={x: batch_xs, y_: batch_ys})
+    train_accuracy = sess.run(accuracy, feed_dict={x: batch_xs, y_: batch_ys})
+    print "Train:", train_accuracy
     print "Penalty:", sess.run(decay_penalty)
+    results.append([train_accuracy, test_accuracy, validation_accuracy])
 
+# Save weights for later use
+snapshot = {}
+snapshot["W0"] = sess.run(W0)
+snapshot["W1"] = sess.run(W1)
+snapshot["b0"] = sess.run(b0)
+snapshot["b1"] = sess.run(b1)
 
-    snapshot = {}
-    snapshot["W0"] = sess.run(W0)
-    snapshot["W1"] = sess.run(W1)
-    snapshot["b0"] = sess.run(b0)
-    snapshot["b1"] = sess.run(b1)
-    cPickle.dump(snapshot,  open("new_snapshot"+str(i)+".pkl", "w"))
+# Plot the learning curve
+x_axis = linspace(0, total_iterations, len(results))
+training_results = [results[i][0] for i in range(len(results))]
+test_results = [results[i][1] for i in range(len(results))]
+validation_results = [results[i][2] for i in range(len(results))]
+
+plt_training = plt.plot(x_axis, training_results, label='Training')
+plt_test = plt.plot(x_axis, test_results, label='Test')
+plt_validation = plt.plot(x_axis, validation_results, label='Validation')
+plt.ylim([0.2, 1.05])
+plt.xlabel('# of Iterations')
+plt.ylabel('Performance')
+plt.title('Performance vs. # of iterations')
+plt.legend(["Training", "Test", "Validation"], loc=7)
+plt.savefig("experiments_part7/"+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".png")
+
+cPickle.dump(snapshot, open("experiments_part7/"+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".pkl", "w"))
+result_record = open("experiments_part7/results.txt", 'a')
+result_record.write('\n=======\nUsing '+str(nhid)+' hidden units\n')
+result_record.write(str(batch_size)+' batch size\n')
+result_record.write(str(lam)+' lambda')
+result_record.write('\nFinal test accuracy: '+ str(results[-1][1]))
+result_record.write('\nFinal train accuracy: '+ str(results[-1][0]))
+result_record.write('\nFinal validation accuracy: '+ str(results[-1][2]))
+result_record.close()
