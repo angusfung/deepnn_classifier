@@ -535,6 +535,5 @@ if run_part4:
 
 if run_part5:
     part5()
-    print("--in progress--")
 
 

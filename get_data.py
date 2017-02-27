@@ -18,9 +18,6 @@ import shutil
 from scipy.misc import toimage
 from collections import defaultdict
 
-# List of all actors/actresses required for the assignment
-
-act = ['Steve Carell', 'Bill Hader', 'Alec Baldwin', 'Fran Drescher', 'America Ferrera', 'Kristin Chenoweth']
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     '''From:
@@ -58,16 +55,20 @@ def rgb2gray(rgb):
 
     return gray / 255.
 
+# List of all actors/actresses required for the assignment
+act = ['Steve Carell', 'Bill Hader', 'Alec Baldwin', 'Fran Drescher', 'America Ferrera', 'Kristin Chenoweth']
 
 testfile = urllib.URLopener()            
 image_files = defaultdict(lambda: [], {})
 hashing = hashlib.sha256()
+test_size = 30
+validation_size = 15
 
 if not os.path.exists('data'):
     os.makedirs('data')
 
+# Iterate through the act array and download images
 for a in act:
-
     name = a.split()[1].lower()
     if not os.path.exists('data/' + name):
         os.makedirs('data/' + name)
@@ -113,9 +114,9 @@ seed = 34
 for name in image_files.keys():
     random.seed(seed)
     seed += 1
-    files = random.sample(image_files[name], 45) # 15 images for validation sets, 30 for test sets
+    files = random.sample(image_files[name], test_size+validation_size) # 15 images for validation sets, 30 for test sets
 
-    for filename in files[:30]:
+    for filename in files[:test_size]:
         shutil.move('data/' + name + '/training/' + filename, 'data/' + name + '/test/' + filename)
-    for filename in files[30:]:
+    for filename in files[test_size:]:
         shutil.move('data/' + name + '/training/' + filename, 'data/' + name + '/validation/' + filename)
