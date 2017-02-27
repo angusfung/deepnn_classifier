@@ -14,7 +14,7 @@ import os
 from scipy.io import loadmat
 import tensorflow as tf
 
-def load_data():
+def load_data(training_size):
     '''
     Loads data from /data directory and creates a dictionary M with keys [train0, test0, validation0, train1 ...]
     Such that each index represents data for a separate class (total 6 classes)
@@ -23,12 +23,12 @@ def load_data():
     M = {}
     actors = ['carell','hader','baldwin', 'drescher', 'ferrera', 'chenoweth']
     for i in range(6):
-        x_train = np.zeros((90, 1024))
+        x_train = np.zeros((training_size, 1024))
         x_test = np.zeros((30, 1024))
         x_validation = np.zeros((15, 1024))
         j = 0
         for filename in os.listdir("data/"+actors[i]+"/training/"):
-            if j >= 90: break
+            if j >= training_size: break
             # Filter some system files that may appear in a folder:
             if filename.endswith(".png"):
                 im = imread("data/" + actors[i] + "/training/" + filename)
@@ -140,13 +140,14 @@ def get_train(M):
 # ---------------------------------------------Definitions end------------------------------------------------------
 # Initialize network paramters
 batch_size = 240
-nhid = 200
-lam = 0.001
+training_size = 50
+nhid = 2000
+lam = 0.01
 total_iterations = 3000
 random.seed(15)
 
 # Initialize Tensor Flow variables
-M = load_data()
+M = load_data(training_size)
 x = tf.placeholder(tf.float32, [None, 1024])
 
 W0 = tf.Variable(tf.random_normal([1024, nhid], stddev=0.01))
@@ -217,13 +218,14 @@ plt.xlabel('# of Iterations')
 plt.ylabel('Performance')
 plt.title('Performance vs. # of iterations')
 plt.legend(["Training", "Test", "Validation"], loc=7)
-plt.savefig("experiments_part7/"+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".png")
+plt.savefig("experiments_part7/"+"train_size"+str(training_size)+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".png")
 
-cPickle.dump(snapshot, open("experiments_part7/"+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".pkl", "w"))
+cPickle.dump(snapshot, open("experiments_part7/"+"train_size"+str(training_size)+"batches"+str(batch_size)+"lam"+str(lam)+"nhin"+str(nhid)+".pkl", "w"))
 result_record = open("experiments_part7/results.txt", 'a')
 result_record.write('\n=======\nUsing '+str(nhid)+' hidden units\n')
 result_record.write(str(batch_size)+' batch size\n')
-result_record.write(str(lam)+' lambda')
+result_record.write(str(lam)+' lambda\n')
+result_record.write(str(training_size)+' Training size')
 result_record.write('\nFinal test accuracy: '+ str(results[-1][1]))
 result_record.write('\nFinal train accuracy: '+ str(results[-1][0]))
 result_record.write('\nFinal validation accuracy: '+ str(results[-1][2]))
