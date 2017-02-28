@@ -15,8 +15,8 @@ from scipy.io import loadmat
 import tensorflow as tf
 
 #---------------------------------- Running The Code ----------------------------------#
-run_part7 = True # Training the network
-run_part9 = False # Reading from the file and visualizing 2 actors
+run_part7 = False # Training the network
+run_part9 = True # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 def load_data(training_size):
@@ -296,3 +296,9 @@ if run_part9:
     img2 = np.reshape(w0.T[top_n2[0]]+bias0[top_n2[0]], (32, 32))
     imsave('actor1.png', img1)
     imsave('actor2.png', img2)
+
+    # Different visualization method
+    for i in actor_indices:
+        testar = dot(w0, w1).T[i]
+        img = np.reshape(testar, (32, 32))
+        imsave('actor'+str(i)+'_allweights.png', img)
