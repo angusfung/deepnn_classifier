@@ -2,41 +2,6 @@
 Using 1000 hidden units
 240 batch size
 0.0 lambda
-Final test accuracy: 0.905556
-Final train accuracy: 1.0
-Final validation accuracy: 0.888889
-=======
-Using 1000 hidden units
-240 batch size
-0.01 lambda
-Final test accuracy: 0.894444
-Final train accuracy: 1.0
-Final validation accuracy: 0.833333
-=======
-Using 1000 hidden units
-240 batch size
-0.1 lambda
-Final test accuracy: 0.883333
-Final train accuracy: 1.0
-Final validation accuracy: 0.844444
-=======
-Using 200 hidden units
-240 batch size
-0.01 lambda
-Final test accuracy: 0.911111
-Final train accuracy: 1.0
-Final validation accuracy: 0.844444
-=======
-Using 200 hidden units
-240 batch size
-0.001 lambda
-Final test accuracy: 0.911111
-Final train accuracy: 1.0
-Final validation accuracy: 0.9
-=======
-Using 1000 hidden units
-240 batch size
-0.0 lambda
 50 Training size
 Final test accuracy: 0.861111
 Final train accuracy: 1.0
@@ -113,3 +78,51 @@ Using 2000 hidden units
 Final test accuracy: 0.877778
 Final train accuracy: 1.0
 Final validation accuracy: 0.755556
+=======
+Using 150 hidden units
+240 batch size
+0 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 150 hidden units
+240 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 500 hidden units
+180 batch size
+0 lambda
+30 Training size
+Final test accuracy: 0.788889
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 500 hidden units
+180 batch size
+0.001 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 500 hidden units
+180 batch size
+0.01 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 500 hidden units
+180 batch size
+0.1 lambda
+30 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
