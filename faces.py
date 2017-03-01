@@ -15,8 +15,8 @@ from scipy.io import loadmat
 import tensorflow as tf
 
 #---------------------------------- Running The Code ----------------------------------#
-run_part7 = False # Training the network
-run_part9 = True # Reading from the file and visualizing 2 actors
+run_part7 = True # Training the network
+run_part9 = False # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 def load_data(training_size):
@@ -65,7 +65,7 @@ def load_data(training_size):
 
     return M
 
-def get_train_batch(M, N):
+def get_train_batch(M, N, seed):
     '''
     Parses the data dictionary and returns a subset of training set specified by the batch size N
     :param M: dictionary with all the data
@@ -80,6 +80,7 @@ def get_train_batch(M, N):
     train_size = len(M[train_k[0]])
     
     for k in range(6):
+        random.seed(seed + k)
         train_size = len(M[train_k[k]])
         idx = array(random.permutation(train_size)[:n])
         batch_xs = vstack((batch_xs, ((array(M[train_k[k]])[idx]))  ))
@@ -165,10 +166,11 @@ if run_part7:
     # Initialize network paramters
     training_size = 30
     batch_size = 180  # be carefuly since it cant exceed training_size*6
-    nhid = 500
-    lam = 0.1
+    nhid = 1000
+    lam = 0.001
+    colored = True
+    size = 64
     total_iterations = 3000
-    random.seed(15)
 
     # Initialize Tensor Flow variables
     M = load_data(training_size)
@@ -203,9 +205,9 @@ if run_part7:
     # Run the TF, collect accuracies in a separate array
     results = []
     for i in range(total_iterations):
-      batch_xs, batch_ys = get_train_batch(M, batch_size)
+      seed = i
+      batch_xs, batch_ys = get_train_batch(M, batch_size, seed)
       sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
-
 
       if i % 10 == 0:
         print "i = ",i
