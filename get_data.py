@@ -63,18 +63,25 @@ image_files = defaultdict(lambda: [], {})
 hashing = hashlib.sha256()
 test_size = 30
 validation_size = 15
+download_colored = False
+size = 32
 
-if not os.path.exists('data'):
-    os.makedirs('data')
+if download_colored:
+    data_path = "data_color"
+else:
+    data_path = "data"
+
+if not os.path.exists(data_path):
+    os.makedirs(data_path)
 
 # Iterate through the act array and download images
 for a in act:
     name = a.split()[1].lower()
-    if not os.path.exists('data/' + name):
-        os.makedirs('data/' + name)
-        os.makedirs('data/' + name + '/test')
-        os.makedirs('data/' + name + '/training')
-        os.makedirs('data/' + name + '/validation')
+    if not os.path.exists(data_path+'/' + name):
+        os.makedirs(data_path+'/' + name)
+        os.makedirs(data_path+'/' + name + '/test')
+        os.makedirs(data_path+'/' + name + '/training')
+        os.makedirs(data_path+'/' + name + '/validation')
 
     i = 0
     for line in open("subset_facescrub.txt"):
@@ -97,14 +104,14 @@ for a in act:
                     print("File " + filename + " was downloaded and matched the sha256 sum")
                     im = imread(filename)
                     im = im[int(bbox[1]):int(bbox[3]), int(bbox[0]):int(bbox[2])]
-                    im = imresize(im, (32, 32, 3))
+                    im = imresize(im, (size, size, 3))
                     # Check if the image is not a grayscale already
-                    if im.shape != (32, 32):
+                    if im.shape != (size, size) and not download_colored:
                         im = rgb2gray(im)
                     # imsave() doesn't save grayscales properly
                     img = toimage(im)
                     new_name = filename.split('.')[0] + '.png'
-                    img.save('data/' + name + '/training/' + new_name)
+                    img.save(data_path+'/' + name + '/training/' + new_name)
                     image_files[name].append(new_name)
                 os.remove(filename)
             i += 1
@@ -117,6 +124,6 @@ for name in image_files.keys():
     files = random.sample(image_files[name], test_size+validation_size) # 15 images for validation sets, 30 for test sets
 
     for filename in files[:test_size]:
-        shutil.move('data/' + name + '/training/' + filename, 'data/' + name + '/test/' + filename)
+        shutil.move(data_path+'/' + name + '/training/' + filename, data_path+'/' + name + '/test/' + filename)
     for filename in files[test_size:]:
-        shutil.move('data/' + name + '/training/' + filename, 'data/' + name + '/validation/' + filename)
+        shutil.move(data_path+'/' + name + '/training/' + filename, data_path+'/' + name + '/validation/' + filename)
