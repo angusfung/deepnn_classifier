@@ -63,8 +63,8 @@ image_files = defaultdict(lambda: [], {})
 hashing = hashlib.sha256()
 test_size = 30
 validation_size = 15
-download_colored = False
-size = 32
+download_colored = True
+size = 227
 
 if download_colored:
     data_path = "data_color"
@@ -94,7 +94,7 @@ for a in act:
             #unsupress exceptions, which timeout() does)
             #testfile.retrieve(line.split()[4], "uncropped/"+filename)
             #timeout is used to stop downloading images which take too long to download
-            timeout(testfile.retrieve, (line.split()[4], filename), {}, 10)
+            timeout(testfile.retrieve, (line.split()[4], filename), {}, 30)
             if not os.path.isfile(filename):
                 continue
             else:
@@ -108,6 +108,9 @@ for a in act:
                     # Check if the image is not a grayscale already
                     if im.shape != (size, size) and not download_colored:
                         im = rgb2gray(im)
+                    elif download_colored and im.shape == (size, size):
+                        os.remove(filename)
+                        continue # Image was black and white originally - disregard it
                     # imsave() doesn't save grayscales properly
                     img = toimage(im)
                     new_name = filename.split('.')[0] + '.png'
