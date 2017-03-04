@@ -15,8 +15,8 @@ from scipy.io import loadmat
 import tensorflow as tf
 
 #---------------------------------- Running The Code ----------------------------------#
-run_part7 = True # Training the network
-run_part9 = False # Reading from the file and visualizing 2 actors
+run_part7 = False # Training the network
+run_part9 = True # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 def load_data(training_size):
@@ -166,21 +166,34 @@ if run_part7:
     # Initialize network paramters
     training_size = 30
     batch_size = 180  # be carefuly since it cant exceed training_size*6
-    nhid = 1000
-    lam = 0.001
-    colored = True
-    size = 64
+    nhid = 30
+    lam = 0.0001
+    read_from_file = True
     total_iterations = 3000
 
     # Initialize Tensor Flow variables
     M = load_data(training_size)
     x = tf.placeholder(tf.float32, [None, 1024])
 
-    W0 = tf.Variable(tf.random_normal([1024, nhid], stddev=0.01))
-    b0 = tf.Variable(tf.random_normal([nhid], stddev=0.01))
+    # If reading from file, set up the best configuration for TF
+    if read_from_file:
+        snapshot = cPickle.load(open('best_FC_weights.pkl'))
+        W0 = tf.Variable(snapshot["W0"])
+        b0 = tf.Variable(snapshot["b0"])
+        W1 = tf.Variable(snapshot["W1"])
+        b1 = tf.Variable(snapshot["b1"])
+        training_size = 90
+        batch_size = 180
+        nhid = 30
+        lam = 0.0001
+        total_iterations = 1
+    else:
+        W0 = tf.Variable(tf.random_normal([1024, nhid], stddev=0.01))
+        b0 = tf.Variable(tf.random_normal([nhid], stddev=0.01))
 
-    W1 = tf.Variable(tf.random_normal([nhid, 6], stddev=0.01))
-    b1 = tf.Variable(tf.random_normal([6], stddev=0.01))
+        W1 = tf.Variable(tf.random_normal([nhid, 6], stddev=0.01))
+        b1 = tf.Variable(tf.random_normal([6], stddev=0.01))
+
 
     layer1 = tf.nn.tanh(tf.matmul(x, W0)+b0)
     layer2 = tf.matmul(layer1, W1)+b1
@@ -211,6 +224,7 @@ if run_part7:
 
       if i % 10 == 0:
         print "i = ",i
+
         test_accuracy = sess.run(accuracy, feed_dict={x: test_x, y_: test_y})
         validation_accuracy = sess.run(accuracy, feed_dict={x: val_x, y_: val_y})
 
@@ -223,6 +237,7 @@ if run_part7:
         print "Penalty:", sess.run(decay_penalty)
         results.append([train_accuracy, test_accuracy, validation_accuracy])
 
+    if read_from_file: exit()
     # Save weights for later use
     snapshot = {}
     snapshot["W0"] = sess.run(W0)
@@ -258,13 +273,11 @@ if run_part7:
     result_record.close()
 
 if run_part9:
-    # Testing for Baldwin and Chenoweth - dictionary indices 2 and 5
-    neurons = 5
-    actor_indices = [2, 5]
+    # Indices are: [carell','hader','baldwin', 'drescher', 'ferrera', 'chenoweth']
+    actor_indices = [1, 3]
 
     # Initialize variables specified by the .pkl package
-    filename = 'train_size90batches240lam0nhin150.pkl'
-    snapshot = cPickle.load(open("experiments_part7/" + filename))
+    snapshot = cPickle.load(open('best_FC_weights.pkl'))
     bias0 = snapshot["b0"]
     bias1 = snapshot["b1"]
     w0 =  snapshot["W0"]
@@ -282,7 +295,8 @@ if run_part9:
     for i in range(w0.shape[1]):
         output = zeros(6)
         for j in range(60):
-            first_layer = dot(test_x[j], w0.T[i].T) + bias0[i]
+            first_layer = tanh(dot(w0.T[i], test_x[j]) + bias0[i])
+            #first_layer = 1./(1.+np.exp(dot(test_x[j], w0.T[i].T) + bias0[i]))
             output += dot(first_layer,w1[i].T) + bias1
 
         if top_n1[1] < output[actor_indices[0]]:
@@ -300,7 +314,10 @@ if run_part9:
     imsave('actor2.png', img2)
 
     # Different visualization method
-    for i in actor_indices:
-        testar = dot(w0, w1).T[i]
-        img = np.reshape(testar, (32, 32))
-        imsave('actor'+str(i)+'_allweights.png', img)
+    testar = dot(w0, w1).T[actor_indices[0]]
+    img = np.reshape(testar, (32, 32))
+    imsave('actor1_allweights.png', img)
+
+    testar = dot(w0, w1).T[actor_indices[1]]
+    img = np.reshape(testar, (32, 32))
+    imsave('actor2_allweights.png', img)
