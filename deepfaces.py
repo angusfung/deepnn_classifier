@@ -33,8 +33,8 @@ import tensorflow as tf
 from caffe_classes import class_names
 
 #---------------------------------- Running The Code ----------------------------------#
-run_part10 = True # Training the network
-run_part11 = False # Reading from the file and visualizing 2 actors
+run_part10 = False # Training the network
+run_part11 = True # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 # Get the AlexNet weights from bvlc_alexnet.npy
@@ -333,7 +333,7 @@ if run_part10:
     # Initialize network paramters
     training_size = 90
     batch_size = 30  # be careful since it cant exceed training_size*6
-    nhid = 400
+    nhid = 50
     lam = 0.0001
     read_from_file = False
     total_iterations = 1000
@@ -445,8 +445,8 @@ if run_part11:
     test_x, test_y = get_test_subset(M, actor_indices)
 
     # 2 entries are a top neuron index and the ouput value for a particular actor
-    top_n1 = [0,0]
-    top_n2 = [0,0]
+    top_n1 = [0, 0]
+    top_n2 = [0, 0]
 
     # Iterate through all the neurons and find the most sensitive one
     # The most sensitive one is the one producing the heightest output for an actor
@@ -454,8 +454,8 @@ if run_part11:
         output = zeros(6)
         for j in range(60):
             first_layer = tanh(dot(w0.T[i], test_x[j]) + bias0[i])
-            #first_layer = 1./(1.+np.exp(dot(test_x[j], w0.T[i].T) + bias0[i]))
-            output += dot(first_layer,w1[i].T) + bias1
+            # first_layer = 1./(1.+np.exp(dot(test_x[j], w0.T[i].T) + bias0[i]))
+            output += dot(first_layer, w1[i].T) + bias1
 
         if top_n1[1] < output[actor_indices[0]]:
             top_n1[0] = i
@@ -466,16 +466,16 @@ if run_part11:
             top_n2[1] = output[actor_indices[1]]
 
     # Reshape and save weights for the most sensitive neuron as an image
-    img1 = np.reshape(w0.T[top_n1[0]]+bias0[top_n1[0]],(32, 32))
-    img2 = np.reshape(w0.T[top_n2[0]]+bias0[top_n2[0]], (32, 32))
+    img1 = np.reshape(w0.T[top_n1[0]] + bias0[top_n1[0]], (8*13*2, 8*13*3))
+    img2 = np.reshape(w0.T[top_n2[0]] + bias0[top_n2[0]], (8*13*2, 8*13*3))
     imsave('actor1_deep.png', img1)
     imsave('actor2_deep.png', img2)
 
     # Different visualization method
     testar = dot(w0, w1).T[actor_indices[0]]
-    img = np.reshape(testar, (32, 32))
-    imsave('actor1_all_deep.png', img)
+    img = np.reshape(testar, (8*13*2, 8*13*3))
+    imsave('actor1_allweights_deep.png', img)
 
     testar = dot(w0, w1).T[actor_indices[1]]
-    img = np.reshape(testar, (32, 32))
-    imsave('actor2_all_deep.png', img)
+    img = np.reshape(testar, (8*13*2, 8*13*3))
+    imsave('actor2_allweights_deep.png', img)
