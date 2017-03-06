@@ -391,9 +391,12 @@ def gen_lin_data_1d(theta, N, sigma):
 
     # Actual data generation
     random.seed(N)
-    x_raw = rint(x_limit * (random.random((N)) - .5)).astype(int64)
-    x = vstack((ones_like(x_raw), x_raw,))
+    x_train = rint(x_limit * (random.random((N)) - .5)).astype(int64)
+    x_test = rint(x_limit * (random.random((N)) - .5)).astype(int64)
+    x = vstack((ones_like(x_train), x_train,))
+    x_test = vstack((ones_like(x_test), x_test,))
     y = dot(theta, x) + norm.rvs(scale=sigma, size=N)
+    y_test = dot(theta, x_test) + norm.rvs(scale=sigma, size=N)
 
     plot(x[1, :], y, "ro", label="Training set")
 
@@ -405,8 +408,11 @@ def gen_lin_data_1d(theta, N, sigma):
     plot_line(theta_hat, -x_limit, x_limit, "g", "Maximum Likelihood Solution")
 
     # Logistic regression solution
-    theta_log = grad_descent(f, df, np.reshape(x_raw, (1,N)), np.reshape(y, (1,N)), ones((2, 1)), 0.00000001)[0].T
-    theta_log = np.reshape(theta_log, (2,))
+    labels = zeros(y.shape[0])
+    for i in range(y.shape[0]):
+        if y[i] > x_train[i]*theta[1] + theta[0]: labels[i] = 1
+    theta_log = grad_descent(f, df, np.reshape(hstack((x_train, y)), (2,N)), np.reshape(labels, (1,N)), ones((3, 1)), 0.00000001)[0].T
+    theta_log = np.array((theta_log[0,0]/theta_log[0,2],theta_log[0,1]/theta_log[0,2]))
 
     plot_line(theta_log, -x_limit, y_limit, "r", "Logistic Regression Solution")
 
@@ -414,6 +420,27 @@ def gen_lin_data_1d(theta, N, sigma):
     xlim([-x_limit, x_limit])
     ylim([-y_limit, y_limit])
     plt.savefig("logistic_vs_least_squares.png")
+
+    score_log = 0.
+    score_mle = 0.
+    for i in range(y_test.shape[0]):
+
+        correct_label = 0
+        line = dot(theta, x_test)[i]
+        if y_test[i] > line:
+            correct_label = 1
+
+        if correct_label == 1 and y_test[i] > dot(theta_hat, x_test)[i]:
+            score_mle += 1
+        if correct_label == 1 and y_test[i] > dot(theta_log, x_test)[i]:
+            score_log += 1
+        if correct_label == 0 and y_test[i] < dot(theta_hat, x_test)[i]:
+            score_mle += 1
+        if correct_label == 0 and y_test[i] < dot(theta_log, x_test)[i]:
+            score_log += 1
+
+    print("Performance on test set for MLE solution: " +str(score_mle/y_test.shape[0]))
+    print("Performance on test set for Logistic solution: " + str(score_log / y_test.shape[0]))
 
 def plot_line(theta, x_min, x_max, color, label):
     '''
