@@ -126,3 +126,1359 @@ Using 500 hidden units
 Final test accuracy: 0.811111
 Final train accuracy: 1.0
 Final validation accuracy: 0.711111
+=======
+Using 500 hidden units
+120 batch size
+0.1 lambda
+20 Training size
+Final test accuracy: 0.783333
+Final train accuracy: 1.0
+Final validation accuracy: 0.733333
+=======
+Using 500 hidden units
+120 batch size
+0.01 lambda
+20 Training size
+Final test accuracy: 0.777778
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 500 hidden units
+120 batch size
+0 lambda
+20 Training size
+Final test accuracy: 0.755556
+Final train accuracy: 1.0
+Final validation accuracy: 0.755556
+=======
+Using 300 hidden units
+300 batch size
+0 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 300 hidden units
+300 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 300 hidden units
+300 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.833333
+=======
+Using 300 hidden units
+300 batch size
+0.1 lambda
+90 Training size
+Final test accuracy: 0.9
+Final train accuracy: 1.0
+Final validation accuracy: 0.833333
+=======
+Using 100 hidden units
+300 batch size
+0 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 100 hidden units
+300 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 100 hidden units
+300 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 100 hidden units
+300 batch size
+0.1 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 100 hidden units
+300 batch size
+0.0003 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 100 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 50 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 50 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 50 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 50 hidden units
+180 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 50 hidden units
+180 batch size
+0.1 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 25 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+180 batch size
+0.0003 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+180 batch size
+0.0002 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+180 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+180 batch size
+0.1 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 15 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 15 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 15 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 35 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.938889
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 35 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 35 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 35 hidden units
+180 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 35 hidden units
+180 batch size
+0.1 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 100 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 100 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 100 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 100 hidden units
+180 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 25 hidden units
+240 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+120 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+60 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+60 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+60 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+540 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+540 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.883333
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 25 hidden units
+540 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+360 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+360 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+360 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+360 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+360 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 25 hidden units
+240 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 25 hidden units
+240 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 25 hidden units
+240 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111
+=======
+Using 25 hidden units
+240 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+240 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 25 hidden units
+240 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+240 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+240 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 25 hidden units
+240 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+240 batch size
+0.01 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 50 hidden units
+240 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 50 hidden units
+240 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.927778
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 50 hidden units
+240 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 30 hidden units
+180 batch size
+0.0 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 30 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.911111 <---------------------------------------- Highest
+=======
+Using 30 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 30 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 30 hidden units
+180 batch size
+0.0003 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.9
+=======
+Using 30 hidden units
+180 batch size
+0.0003 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 30 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 30 hidden units
+210 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.905556
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 30 hidden units
+210 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.911111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.933333
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+180 batch size
+0.0001 lambda
+90 Training size
+Final test accuracy: 0.916667
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 25 hidden units
+180 batch size
+0.001 lambda
+90 Training size
+Final test accuracy: 0.922222
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 500 hidden units
+240 batch size
+0.0 lambda
+40 Training size
+Final test accuracy: 0.844444
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 500 hidden units
+240 batch size
+0.0001 lambda
+40 Training size
+Final test accuracy: 0.838889
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 500 hidden units
+240 batch size
+0.0003 lambda
+40 Training size
+Final test accuracy: 0.85
+Final train accuracy: 1.0
+Final validation accuracy: 0.733333
+=======
+Using 500 hidden units
+240 batch size
+0.001 lambda
+40 Training size
+Final test accuracy: 0.85
+Final train accuracy: 1.0
+Final validation accuracy: 0.744444
+=======
+Using 500 hidden units
+240 batch size
+0.003 lambda
+40 Training size
+Final test accuracy: 0.855556
+Final train accuracy: 1.0
+Final validation accuracy: 0.744444
+=======
+Using 500 hidden units
+240 batch size
+0.01 lambda
+40 Training size
+Final test accuracy: 0.85
+Final train accuracy: 1.0
+Final validation accuracy: 0.788889
+=======
+Using 700 hidden units
+180 batch size
+0 lambda
+30 Training size
+Final test accuracy: 0.783333
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 700 hidden units
+180 batch size
+0.0001 lambda
+30 Training size
+Final test accuracy: 0.777778
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 700 hidden units
+180 batch size
+0.0003 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 700 hidden units
+180 batch size
+0.001 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 700 hidden units
+180 batch size
+0.01 lambda
+30 Training size
+Final test accuracy: 0.788889
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 700 hidden units
+180 batch size
+0.03 lambda
+30 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 700 hidden units
+180 batch size
+0.1 lambda
+30 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 1000 hidden units
+180 batch size
+0 lambda
+30 Training size
+Final test accuracy: 0.777778
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 1000 hidden units
+180 batch size
+0.0001 lambda
+30 Training size
+Final test accuracy: 0.777778
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 1000 hidden units
+180 batch size
+0.0003 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 1000 hidden units
+180 batch size
+0.001 lambda
+30 Training size
+Final test accuracy: 0.794444
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 1000 hidden units
+180 batch size
+0.01 lambda
+30 Training size
+Final test accuracy: 0.788889
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 1000 hidden units
+180 batch size
+0.1 lambda
+30 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 30 hidden units
+60 batch size
+0.0 lambda
+10 Training size
+Final test accuracy: 0.577778
+Final train accuracy: 1.0
+Final validation accuracy: 0.611111
+=======
+Using 30 hidden units
+60 batch size
+0.0001 lambda
+10 Training size
+Final test accuracy: 0.622222
+Final train accuracy: 1.0
+Final validation accuracy: 0.622222
+=======
+Using 30 hidden units
+60 batch size
+0.001 lambda
+10 Training size
+Final test accuracy: 0.6
+Final train accuracy: 1.0
+Final validation accuracy: 0.644444
+=======
+Using 30 hidden units
+60 batch size
+0.01 lambda
+10 Training size
+Final test accuracy: 0.577778
+Final train accuracy: 1.0
+Final validation accuracy: 0.611111
+=======
+Using 30 hidden units
+60 batch size
+0.1 lambda
+10 Training size
+Final test accuracy: 0.588889
+Final train accuracy: 1.0
+Final validation accuracy: 0.611111
+=======
+Using 30 hidden units
+60 batch size
+1 lambda
+10 Training size
+Final test accuracy: 0.555556
+Final train accuracy: 1.0
+Final validation accuracy: 0.6
+=======
+Using 30 hidden units
+5 batch size
+0.0 lambda
+5 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.177778
+=======
+Using 30 hidden units
+5 batch size
+0.0001 lambda
+5 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 30 hidden units
+5 batch size
+0.001 lambda
+5 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 30 hidden units
+5 batch size
+0.01 lambda
+5 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 30 hidden units
+5 batch size
+0.1 lambda
+5 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 100 hidden units
+5 batch size
+0.0 lambda
+15 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 100 hidden units
+5 batch size
+0.0001 lambda
+15 Training size
+Final test accuracy: 0.166667
+Final train accuracy: 0.166667
+Final validation accuracy: 0.166667
+=======
+Using 100 hidden units
+15 batch size
+0.0001 lambda
+15 Training size
+Final test accuracy: 0.716667
+Final train accuracy: 1.0
+Final validation accuracy: 0.744444
+=======
+Using 100 hidden units
+15 batch size
+0.0 lambda
+15 Training size
+Final test accuracy: 0.722222
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 100 hidden units
+15 batch size
+0.0001 lambda
+15 Training size
+Final test accuracy: 0.727778
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 100 hidden units
+15 batch size
+0.001 lambda
+15 Training size
+Final test accuracy: 0.711111
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 100 hidden units
+15 batch size
+0.01 lambda
+15 Training size
+Final test accuracy: 0.7
+Final train accuracy: 1.0
+Final validation accuracy: 0.677778
+=======
+Using 100 hidden units
+20 batch size
+0.0 lambda
+20 Training size
+Final test accuracy: 0.677778
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+=======
+Using 100 hidden units
+20 batch size
+0.0001 lambda
+20 Training size
+Final test accuracy: 0.694444
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 100 hidden units
+20 batch size
+0.001 lambda
+20 Training size
+Final test accuracy: 0.7
+Final train accuracy: 1.0
+Final validation accuracy: 0.688889
+=======
+Using 100 hidden units
+20 batch size
+0.01 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.722222
+==================================================================
+=======
+Using 30 hidden units
+20 batch size
+0 lambda
+20 Training size
+Final test accuracy: 0.694444
+Final train accuracy: 1.0
+Final validation accuracy: 0.688889
+=======
+Using 30 hidden units
+20 batch size
+0.0001 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.677778
+=======
+Using 30 hidden units
+20 batch size
+0.0003 lambda
+20 Training size
+Final test accuracy: 0.716667
+Final train accuracy: 1.0
+Final validation accuracy: 0.733333
+=======
+Using 30 hidden units
+20 batch size
+0.001 lambda
+20 Training size
+Final test accuracy: 0.65
+Final train accuracy: 1.0
+Final validation accuracy: 0.655556
+=======
+Using 30 hidden units
+20 batch size
+0.003 lambda
+20 Training size
+Final test accuracy: 0.694444
+Final train accuracy: 1.0
+Final validation accuracy: 0.688889
+=======
+Using 30 hidden units
+20 batch size
+0.01 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.677778
+=======
+Using 30 hidden units
+20 batch size
+0.03 lambda
+20 Training size
+Final test accuracy: 0.661111
+Final train accuracy: 1.0
+Final validation accuracy: 0.666667
+=======
+Using 30 hidden units
+20 batch size
+0.1 lambda
+20 Training size
+Final test accuracy: 0.683333
+Final train accuracy: 1.0
+Final validation accuracy: 0.655556
+=======
+Using 30 hidden units
+20 batch size
+0.3 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.677778
+=======
+Using 30 hidden units
+20 batch size
+1 lambda
+20 Training size
+Final test accuracy: 0.622222
+Final train accuracy: 0.883333
+Final validation accuracy: 0.622222
+======================================
+=======
+Using 60 hidden units
+20 batch size
+0 lambda
+20 Training size
+Final test accuracy: 0.677778
+Final train accuracy: 1.0
+Final validation accuracy: 0.733333
+=======
+Using 60 hidden units
+20 batch size
+0.0001 lambda
+20 Training size
+Final test accuracy: 0.705556
+Final train accuracy: 1.0
+Final validation accuracy: 0.688889
+=======
+Using 60 hidden units
+20 batch size
+0.0003 lambda
+20 Training size
+Final test accuracy: 0.688889
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 60 hidden units
+20 batch size
+0.001 lambda
+20 Training size
+Final test accuracy: 0.7
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 60 hidden units
+20 batch size
+0.003 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 60 hidden units
+20 batch size
+0.01 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.688889
+=======
+Using 60 hidden units
+20 batch size
+0.03 lambda
+20 Training size
+Final test accuracy: 0.666667
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 60 hidden units
+20 batch size
+0.1 lambda
+20 Training size
+Final test accuracy: 0.666667
+Final train accuracy: 1.0
+Final validation accuracy: 0.711111
+=======
+Using 60 hidden units
+20 batch size
+0.3 lambda
+20 Training size
+Final test accuracy: 0.672222
+Final train accuracy: 1.0
+Final validation accuracy: 0.7
+=======
+Using 60 hidden units
+20 batch size
+1 lambda
+20 Training size
+Final test accuracy: 0.611111
+Final train accuracy: 0.883333
+Final validation accuracy: 0.611111
+================
+=======
+Using 60 hidden units
+30 batch size
+0 lambda
+40 Training size
+Final test accuracy: 0.827778
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 60 hidden units
+30 batch size
+0.0001 lambda
+40 Training size
+Final test accuracy: 0.861111
+Final train accuracy: 1.0
+Final validation accuracy: 0.888889
+=======
+Using 60 hidden units
+30 batch size
+0.0003 lambda
+40 Training size
+Final test accuracy: 0.855556
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 60 hidden units
+30 batch size
+0.001 lambda
+40 Training size
+Final test accuracy: 0.833333
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 60 hidden units
+30 batch size
+0.003 lambda
+40 Training size
+Final test accuracy: 0.838889
+Final train accuracy: 1.0
+Final validation accuracy: 0.877778
+=======
+Using 60 hidden units
+30 batch size
+0.01 lambda
+40 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 60 hidden units
+30 batch size
+0.03 lambda
+40 Training size
+Final test accuracy: 0.822222
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 60 hidden units
+30 batch size
+0.1 lambda
+40 Training size
+Final test accuracy: 0.816667
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 60 hidden units
+30 batch size
+0.3 lambda
+40 Training size
+Final test accuracy: 0.8
+Final train accuracy: 1.0
+Final validation accuracy: 0.866667
+=======
+Using 60 hidden units
+30 batch size
+1 lambda
+40 Training size
+Final test accuracy: 0.766667
+Final train accuracy: 0.908333
+Final validation accuracy: 0.8
+==================================
+=======
+Using 200 hidden units
+30 batch size
+0 lambda
+40 Training size
+Final test accuracy: 0.822222
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 200 hidden units
+30 batch size
+0.0001 lambda
+40 Training size
+Final test accuracy: 0.822222
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 200 hidden units
+30 batch size
+0.0003 lambda
+40 Training size
+Final test accuracy: 0.822222
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 200 hidden units
+30 batch size
+0.001 lambda
+40 Training size
+Final test accuracy: 0.816667
+Final train accuracy: 1.0
+Final validation accuracy: 0.855556
+=======
+Using 200 hidden units
+30 batch size
+0.003 lambda
+40 Training size
+Final test accuracy: 0.816667
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 200 hidden units
+30 batch size
+0.01 lambda
+40 Training size
+Final test accuracy: 0.816667
+Final train accuracy: 1.0
+Final validation accuracy: 0.833333
+=======
+Using 200 hidden units
+30 batch size
+0.03 lambda
+40 Training size
+Final test accuracy: 0.805556
+Final train accuracy: 1.0
+Final validation accuracy: 0.822222
+=======
+Using 200 hidden units
+30 batch size
+0.1 lambda
+40 Training size
+Final test accuracy: 0.805556
+Final train accuracy: 1.0
+Final validation accuracy: 0.8
+=======
+Using 200 hidden units
+30 batch size
+0.3 lambda
+40 Training size
+Final test accuracy: 0.805556
+Final train accuracy: 0.991667
+Final validation accuracy: 0.844444
+=======
+Using 200 hidden units
+30 batch size
+1 lambda
+40 Training size
+Final test accuracy: 0.755556
+Final train accuracy: 0.916667
+Final validation accuracy: 0.833333
+=======
+Using 500 hidden units
+30 batch size
+0 lambda
+40 Training size
+Final test accuracy: 0.805556
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 500 hidden units
+30 batch size
+0.0001 lambda
+40 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 500 hidden units
+30 batch size
+0.0003 lambda
+40 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.822222
+=======
+Using 500 hidden units
+30 batch size
+0.001 lambda
+40 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.844444
+=======
+Using 500 hidden units
+30 batch size
+0.003 lambda
+40 Training size
+Final test accuracy: 0.8
+Final train accuracy: 1.0
+Final validation accuracy: 0.811111
+=======
+Using 500 hidden units
+30 batch size
+0.01 lambda
+40 Training size
+Final test accuracy: 0.811111
+Final train accuracy: 1.0
+Final validation accuracy: 0.822222
+=======
+Using 500 hidden units
+30 batch size
+0.03 lambda
+40 Training size
+Final test accuracy: 0.8
+Final train accuracy: 1.0
+Final validation accuracy: 0.822222
+=======
+Using 500 hidden units
+30 batch size
+0.1 lambda
+40 Training size
+Final test accuracy: 0.788889
+Final train accuracy: 1.0
+Final validation accuracy: 0.822222
+=======
+Using 500 hidden units
+30 batch size
+0.3 lambda
+40 Training size
+Final test accuracy: 0.777778
+Final train accuracy: 0.9875
+Final validation accuracy: 0.811111
+=======
+Using 500 hidden units
+30 batch size
+1 lambda
+40 Training size
+Final test accuracy: 0.766667
+Final train accuracy: 0.908333
+Final validation accuracy: 0.822222

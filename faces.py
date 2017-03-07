@@ -16,7 +16,8 @@ import tensorflow as tf
 
 #---------------------------------- Running The Code ----------------------------------#
 run_part7 = False # Training the network
-run_part9 = True # Reading from the file and visualizing 2 actors
+run_part8 = True # Training and experimenting with the outliers
+run_part9 = False # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 def load_data(training_size):
@@ -55,6 +56,52 @@ def load_data(training_size):
             # Filter some system files that may appear in a folder:
             if filename.endswith(".png"):
                 im = imread("data/" + actors[i] + "/validation/" + filename)
+                im = (im - 127.) / 255
+                x_validation[j, :] = im.flatten().T
+                j += 1
+
+        M['train' + str(i)] = x_train
+        M['test' + str(i)] = x_test
+        M['validation' + str(i)] = x_validation
+
+    return M
+
+def load_outliers_data(training_size=40):
+    '''
+    Loads data from /data_outliers directory and creates a dictionary M with keys [train0, test0, validation0, train1 ...]
+    Such that each index represents data for a separate class (total 6 classes)
+    :return: a dictionary specified above
+    '''
+    M = {}
+    actors = ['carell','hader','baldwin', 'drescher', 'ferrera', 'chenoweth']
+    for i in range(6):
+        x_train = np.zeros((training_size, 1024))
+        x_test = np.zeros((30, 1024))
+        x_validation = np.zeros((15, 1024))
+        j = 0
+        for filename in os.listdir("data_outliers/"+actors[i]+"/training/"):
+            if j >= training_size: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data_outliers/" + actors[i] + "/training/" + filename)
+                im = (im - 127.) / 255
+                x_train[j, :] = im.flatten().T
+                j += 1
+        j = 0
+        for filename in os.listdir("data_outliers/" + actors[i] + "/test/"):
+            if j >= 30: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data_outliers/" + actors[i] + "/test/" + filename)
+                im = (im - 127.) / 255
+                x_test[j, :] = im.flatten().T
+                j += 1
+        j = 0
+        for filename in os.listdir("data_outliers/" + actors[i] + "/validation/"):
+            if j >= 15: break
+            # Filter some system files that may appear in a folder:
+            if filename.endswith(".png"):
+                im = imread("data_outliers/" + actors[i] + "/validation/" + filename)
                 im = (im - 127.) / 255
                 x_validation[j, :] = im.flatten().T
                 j += 1
@@ -164,11 +211,11 @@ def get_train(M):
 # ---------------------------------------------Definitions end------------------------------------------------------
 if run_part7:
     # Initialize network paramters
-    training_size = 30
-    batch_size = 180  # be carefuly since it cant exceed training_size*6
-    nhid = 30
+    training_size = 15
+    batch_size = 15  # be carefuly since it cant exceed training_size*6
+    nhid = 100
     lam = 0.0001
-    read_from_file = True
+    read_from_file = False
     total_iterations = 3000
 
     # Initialize Tensor Flow variables
@@ -271,6 +318,78 @@ if run_part7:
     result_record.write('\nFinal train accuracy: '+ str(results[-1][0]))
     result_record.write('\nFinal validation accuracy: '+ str(results[-1][2]))
     result_record.close()
+
+if run_part8:
+    for lam in [0,0.0001,0.0003,0.001,0.003,0.01,0.03,0.1,0.3,1]:
+        # Initialize network paramters
+        training_size = 40
+        batch_size = 30  # be carefuly since it cant exceed training_size*6
+        nhid = 500
+        read_from_file = False
+        total_iterations = 3000
+
+        # Initialize Tensor Flow variables
+        M = load_outliers_data(training_size)
+        x = tf.placeholder(tf.float32, [None, 1024])
+
+        W0 = tf.Variable(tf.random_normal([1024, nhid], stddev=0.01))
+        b0 = tf.Variable(tf.random_normal([nhid], stddev=0.01))
+
+        W1 = tf.Variable(tf.random_normal([nhid, 6], stddev=0.01))
+        b1 = tf.Variable(tf.random_normal([6], stddev=0.01))
+
+        layer1 = tf.nn.tanh(tf.matmul(x, W0) + b0)
+        layer2 = tf.matmul(layer1, W1) + b1
+
+        y = tf.nn.softmax(layer2)
+        y_ = tf.placeholder(tf.float32, [None, 6])
+
+        decay_penalty = lam * tf.reduce_sum(tf.square(W0)) + lam * tf.reduce_sum(tf.square(W1))
+        reg_NLL = -tf.reduce_sum(y_ * tf.log(y)) + decay_penalty
+
+        train_step = tf.train.AdamOptimizer(0.0005).minimize(reg_NLL)
+
+        init = tf.initialize_all_variables()
+        sess = tf.Session()
+        sess.run(init)
+
+        correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+        accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+        test_x, test_y = get_test(M)
+        val_x, val_y = get_validation(M)
+
+        # Run the TF, collect accuracies in a separate array
+        results = []
+        for i in range(total_iterations):
+            seed = i
+            batch_xs, batch_ys = get_train_batch(M, batch_size, seed)
+            sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+
+            if i % 10 == 0:
+                print "i = ", i
+
+                test_accuracy = sess.run(accuracy, feed_dict={x: test_x, y_: test_y})
+                validation_accuracy = sess.run(accuracy, feed_dict={x: val_x, y_: val_y})
+
+                print "Test:", test_accuracy
+                print "Validation:", validation_accuracy
+                batch_xs, batch_ys = get_train(M)
+
+                train_accuracy = sess.run(accuracy, feed_dict={x: batch_xs, y_: batch_ys})
+                print "Train:", train_accuracy
+                print "Penalty:", sess.run(decay_penalty)
+                results.append([train_accuracy, test_accuracy, validation_accuracy])
+
+
+        result_record = open("experiments_part7/results.txt", 'a')
+        result_record.write('\n=======\nUsing ' + str(nhid) + ' hidden units\n')
+        result_record.write(str(batch_size) + ' batch size\n')
+        result_record.write(str(lam) + ' lambda\n')
+        result_record.write(str(training_size) + ' Training size')
+        result_record.write('\nFinal test accuracy: ' + str(results[-1][1]))
+        result_record.write('\nFinal train accuracy: ' + str(results[-1][0]))
+        result_record.write('\nFinal validation accuracy: ' + str(results[-1][2]))
+        result_record.close()
 
 if run_part9:
     # Indices are: [carell','hader','baldwin', 'drescher', 'ferrera', 'chenoweth']
