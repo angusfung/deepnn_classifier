@@ -479,3 +479,29 @@ if run_part11:
     testar = dot(w0, w1).T[actor_indices[1]]
     img = np.reshape(testar, (8*13*2, 8*13*3))
     imsave('actor2_allweights_deep.png', img)
+
+    img = zeros((8*13*2+16*5, 8*13*3+24*5))
+    img1 = zeros((8 * 13 * 2 + 16 * 5, 8 * 13 * 3 + 24 * 5))
+    img2 = zeros((8 * 13 * 2 + 16 * 5, 8 * 13 * 3 + 24 * 5))
+    w0 = np.reshape(w0, (13,13,384,50))
+    for i1 in range(8*2):
+        for i2 in range(8*3):
+            # Summing all weights
+            for i in range(w0.shape[1]):
+                square = np.reshape(w0.T[i, 8 * 3 * i1 + i2], (13, 13))
+                square += abs(square.min())*ones((13,13))
+                square = square*255/square.max()
+                img[13*i1+5*i1:13*(i1+1)+5*(i1), 13*i2+5*i2:13*(i2+1)+5*(i2)] += square
+            square = np.reshape(w0.T[top_n1[0], 8 * 3 * i1 + i2], (13, 13))
+            square += abs(square.min()) * ones((13, 13))
+            square = square * 255 / square.max()
+            img1[13 * i1 + 5 * i1:13 * (i1 + 1) + 5 * (i1), 13 * i2 + 5 * i2:13 * (i2 + 1) + 5 * (i2)] += square
+
+            square = np.reshape(w0.T[top_n2[0], 8 * 3 * i1 + i2], (13, 13))
+            square += abs(square.min()) * ones((13, 13))
+            square = square * 255 / square.max()
+            img2[13 * i1 + 5 * i1:13 * (i1 + 1) + 5 * (i1), 13 * i2 + 5 * i2:13 * (i2 + 1) + 5 * (i2)] += square
+
+    imsave('deep_sum.png', img)
+    imsave('actor1_deep_legit.png', img1)
+    imsave('actor2_deep_legit.png', img2)
