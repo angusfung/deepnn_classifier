@@ -16,7 +16,7 @@ import tensorflow as tf
 
 #---------------------------------- Running The Code ----------------------------------#
 run_part7 = False # Training the network
-run_part8 = True # Training and experimenting with the outliers
+run_part8 = False # Training and experimenting with the outliers
 run_part9 = False # Reading from the file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 

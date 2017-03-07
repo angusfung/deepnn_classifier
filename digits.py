@@ -19,7 +19,7 @@ import pickle
 run_part1 = False  # generate 100 images
 run_part3 = False  # finite differences
 run_part4 = False  # plot the learning curve, print out the final performance results
-run_part5 = True  # multinomial example
+run_part5 = False  # multinomial example
 #--------------------------------------------------------------------------------------#
 
 # Load the MNIST digit data

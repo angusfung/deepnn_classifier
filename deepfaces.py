@@ -34,7 +34,7 @@ from caffe_classes import class_names
 
 #---------------------------------- Running The Code ----------------------------------#
 run_part10 = False # Training the network
-run_part11 = True # Reading from the file and visualizing 2 actors
+run_part11 = False # Reading from the .pkl file and visualizing 2 actors
 #--------------------------------------------------------------------------------------#
 
 # Get the AlexNet weights from bvlc_alexnet.npy
